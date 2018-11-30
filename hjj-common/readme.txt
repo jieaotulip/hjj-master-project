@@ -19,3 +19,5 @@ swagger2支持
 1、java中的注解（Annotation） 自定义注解
 2、AOP的使用
 3、Spring MVC 异常的统一处理
+4、AbstractRoutingDataSource  Spring源码解析
+5、ThreadLocal

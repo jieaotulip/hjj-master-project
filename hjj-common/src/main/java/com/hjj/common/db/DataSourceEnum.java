@@ -1,8 +1,9 @@
 package com.hjj.common.db;
 
 /**
- * 多数据源枚举
- * Created by ZhangShuzheng on 2017/1/15.
+  *    多数据源枚举
+ * @author hujunjie
+ * @time 2018年11月30日
  */
 public enum DataSourceEnum {
 

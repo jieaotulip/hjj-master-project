@@ -6,7 +6,8 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 /**
  * 动态数据源（数据源切换）
- * Created by ZhangShuzheng on 2017/1/15.
+ * @author hujunjie
+ * @time 2018年11月30日
  */
 public class DynamicDataSource extends AbstractRoutingDataSource {
 
