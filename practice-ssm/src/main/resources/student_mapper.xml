@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.hjj.entityMapper">
+<mapper namespace="StudentMapper">
+	<!-- select -->
 	<select id="selectStudentById" parameterType="int"
 		resultType="Student">
 		<!-- 使用<![CDATA[ ... ]]>，它可以保证如论如何<![CDATA[ ... ]]>里面的内容都会被解析成SQL语句 -->
@@ -15,9 +16,10 @@
 	<select id="selectStudentByIdAndName" parameterType="Student"
 		resultType="Student">
 		<!-- 使用"#"最重要的作用就是防止SQL注入 -->
-    	<![CDATA[
-    		select * from student where studentId=#{studentId} and studentName=#{studentName};
-    	]]>
+    	select * from student where studentId=#{studentId}
+    	<if test="studentName != null">
+    		and studentName=#{studentName};
+    	</if>
 	</select>
 
 	<!-- 查询多个条件 -->
@@ -43,4 +45,37 @@
 		<result property="studentAge" column="studentAge" />
 		<result property="studentPhone" column="studentPhone" />
 	</resultMap>
+
+	<!-- insert -->
+	<insert id="insertOneStudentA" parameterType="Student">
+		<![CDATA[
+			insert into student values (null, #{studentName}, #{studentAge}, #{studentPhone});
+		]]>
+	</insert>
+
+	<!-- useGeneratedKeys表示让数据库自动生成主键 keyProperty表示生成主键的列。 -->
+	<insert id="insertOneStudentB" parameterType="Student"
+		useGeneratedKeys="true" keyProperty="studentId">
+		insert into student (<include refid="insertColumns" />) values (#{studentName}, #{studentAge}, #{studentPhone});
+	</insert>
+
+	<!-- update -->
+	<update id="updateStudentAgeById" parameterType="Student">
+		<![CDATA[
+			update student set studentAge = #{studentAge} where studentId = #{studentId}
+		]]>
+	</update>
+
+	<!-- delete -->
+	<delete id="deleteStudentById" parameterType="int">
+		<![CDATA[
+        	delete from student where studentId = #{studentId};
+    	]]>
+	</delete>
+	
+	<sql id="insertColumns">
+		studentName, studentAge, studentPhone
+	</sql>
+
+
 </mapper>
