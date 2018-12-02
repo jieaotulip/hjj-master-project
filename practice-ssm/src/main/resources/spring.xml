@@ -19,11 +19,7 @@
 	<!-- 引入jdbc配置文件 -->
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>jdbc.properties</value>
-			</list>
-		</property>
+		<property name="locations" value="classpath:jdbc.properties" />
 	</bean>
 
 	<!-- 数据库连接，这里使用alibaba的Druid -->
@@ -32,7 +28,7 @@
 		destroy-method="close">
 		<!-- 基本属性url、user、password -->
 		<property name="url" value="${jdbc.url}" />
-		<property name="userName" value="${jdbc.userName}" />
+		<property name="username" value="${jdbc.userName}" />
 		<property name="password" value="${jdbc.password}" />
 		<!-- 配置初始化大小、最小、最大 -->
 		<property name="initialSize" value="2"></property>
@@ -61,15 +57,22 @@
 
 	<bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="configLocation" value="classpath:config.xml" />
-		<property name="mapperLocations"
-			value="classpath:*_mapper.xml" />
 		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"
+			value="classpath:mybatis-config.xml" />
+		<!-- <property name="mapperLocations"
+			value="classpath:*_mapper.xml" /> -->
+
 	</bean>
+
+	<!-- <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"> <property 
+		name="basePackage" value="com.hjj" /> <property name="sqlSessionFactoryBeanName" 
+		value="sqlSessionFactory" /> </bean> <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate"> 
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" /> </bean> -->
 
 	<!-- 事务管理器 -->
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" value="dataSource" />
+		<property name="dataSource" ref="dataSource" />
 	</bean>
 </beans>

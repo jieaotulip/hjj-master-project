@@ -2,20 +2,17 @@ package com.hjj.db;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-
 import com.hjj.entityMapper.Student;
 
 @Repository
-public class StudentDaoImpl extends SqlSessionDaoSupport implements StudentDao {
+@Qualifier("StudentDaoImpl")
+public class StudentDaoImpl extends BaseDao implements StudentDao {
 	private static final Logger logger = LoggerFactory.getLogger(StudentDaoImpl.class);
-	private static final String NAMESPACE = "StudentMapper.";
+	private static final String NAMESPACE = "com.hjj.entityMapper.Student.";
 
 	private static class LazyLoad {
 		private static final StudentDaoImpl studentInstance = new StudentDaoImpl();
@@ -29,11 +26,11 @@ public class StudentDaoImpl extends SqlSessionDaoSupport implements StudentDao {
 		return LazyLoad.studentInstance;
 	}
 	
-	@Resource
-	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
-		
-		super.setSqlSessionFactory(sqlSessionFactory);
-	}
+//	@Resource
+//	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
+//		logger.info(sqlSessionFactory.toString());
+//		super.setSqlSessionFactory(sqlSessionFactory);
+//	}
 
 	public Student selectStudentById(int studentId) {
 //		SqlSession ss = ssf.openSession();
@@ -44,6 +41,7 @@ public class StudentDaoImpl extends SqlSessionDaoSupport implements StudentDao {
 //			ss.close();
 //		}
 //		return student;
+//		logger.info(ss.toString());
 		return getSqlSession().selectOne(NAMESPACE + "selectStudentById", studentId);
 	}
 
@@ -175,4 +173,17 @@ public class StudentDaoImpl extends SqlSessionDaoSupport implements StudentDao {
 		}
 	}
 
+	@Override
+	public int batchInsertStudents(List<Student> studentList) {
+		return getSqlSession().insert(NAMESPACE + "batchInsert", studentList);
+	}
+
+	@Override
+	public List<Student> selectAllStudents() {
+		return getSqlSession().selectList(NAMESPACE + "selectAllStudents");
+	}
+	
+	
+
+	
 }

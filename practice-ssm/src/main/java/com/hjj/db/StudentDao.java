@@ -20,5 +20,8 @@ public interface StudentDao {
 	boolean updateStudentAgeById(int studentId, int studentAge);
 
 	boolean delStudentAgeById(int studentId);
-
+	
+	int batchInsertStudents(List<Student> studentList);
+	
+	List<Student> selectAllStudents();
 }

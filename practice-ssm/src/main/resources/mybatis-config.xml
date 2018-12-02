@@ -9,6 +9,7 @@
 	<typeAliases>
 		<typeAlias alias="Student"
 			type="com.hjj.entityMapper.Student" />
+			<typeAlias alias="Teacher" type="com.hjj.entityMapper.Teacher" />
 	</typeAliases>
 	<!-- 
 		<environments default="development">
@@ -23,8 +24,10 @@
 			</environment>
 		</environments>
  	-->
-
+	
 	<mappers>
 		<mapper resource="student_mapper.xml" />
+		<mapper resource="teacher_mapper.xml"/>
 	</mappers>
+	
 </configuration>

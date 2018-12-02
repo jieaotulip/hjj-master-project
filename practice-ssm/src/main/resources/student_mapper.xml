@@ -2,8 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="StudentMapper">
+<mapper namespace="com.hjj.entityMapper.Student">
 	<!-- select -->
+	<select id="selectAllStudents" resultType="Student">
+		select * from student;
+	</select>
+
 	<select id="selectStudentById" parameterType="int"
 		resultType="Student">
 		<!-- 使用<![CDATA[ ... ]]>，它可以保证如论如何<![CDATA[ ... ]]>里面的内容都会被解析成SQL语句 -->
@@ -16,10 +20,10 @@
 	<select id="selectStudentByIdAndName" parameterType="Student"
 		resultType="Student">
 		<!-- 使用"#"最重要的作用就是防止SQL注入 -->
-    	select * from student where studentId=#{studentId}
-    	<if test="studentName != null">
-    		and studentName=#{studentName};
-    	</if>
+		select * from student where studentId=#{studentId}
+		<if test="studentName != null">
+			and studentName=#{studentName};
+		</if>
 	</select>
 
 	<!-- 查询多个条件 -->
@@ -56,7 +60,9 @@
 	<!-- useGeneratedKeys表示让数据库自动生成主键 keyProperty表示生成主键的列。 -->
 	<insert id="insertOneStudentB" parameterType="Student"
 		useGeneratedKeys="true" keyProperty="studentId">
-		insert into student (<include refid="insertColumns" />) values (#{studentName}, #{studentAge}, #{studentPhone});
+		insert into student (
+		<include refid="insertColumns" />
+		) values (#{studentName}, #{studentAge}, #{studentPhone});
 	</insert>
 
 	<!-- update -->
@@ -72,10 +78,26 @@
         	delete from student where studentId = #{studentId};
     	]]>
 	</delete>
-	
+
 	<sql id="insertColumns">
 		studentName, studentAge, studentPhone
 	</sql>
+
+	<insert id="batchInsert" useGeneratedKeys="true"
+		parameterType="java.util.List">
+		<selectKey resultType="int" keyProperty="studentId"
+			order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into student(studentId, studentName, studentAge, studentPhone)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.studentId, jdbcType=INTEGER}, #{item.studentName, jdbcType=VARCHAR},
+			#{item.studentAge, jdbcType=INTEGER}, #{item.studentPhone, jdbcType=VARCHAR})
+		</foreach>
+	</insert>
 
 
 </mapper>
