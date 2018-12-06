@@ -11,6 +11,8 @@ import com.hjj.db.StudentDao;
 import com.hjj.db.StudentDaoImpl;
 import com.hjj.entityMapper.Student;
 
+
+
 public class MyBatisTest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MyBatisTest.class);
 
@@ -18,18 +20,18 @@ public class MyBatisTest {
 		ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext("spring.xml");
 		StudentDao studentDao = (StudentDao) ac.getBean("studentDaoImpl");
 		List<Student> studentList = null;
-		Student student0 = new Student();
-		student0.setStudentName("Smith1");
-		student0.setStudentAge(20);
-		student0.setStudentPhone("1234567");
-		Student student1 = new Student();
-		student1.setStudentName("ArmStrong11");
-		student1.setStudentAge(22);
-		student1.setStudentPhone("654321");
-		studentList = new ArrayList<>();
-		studentList.add(student0);
-		studentList.add(student1);
-		studentDao.batchInsertStudents(studentList);
+//		Student student0 = new Student();
+//		student0.setStudentName("Smith1");
+//		student0.setStudentAge(20);
+//		student0.setStudentPhone("1234567");
+//		Student student1 = new Student();
+//		student1.setStudentName("ArmStrong11");
+//		student1.setStudentAge(22);
+//		student1.setStudentPhone("654321");
+//		studentList = new ArrayList<>();
+//		studentList.add(student0);
+//		studentList.add(student1);
+//		studentDao.batchInsertStudents(studentList);
 
 		System.out.println("-----Display students------");
 		studentList = studentDao.selectAllStudents();
