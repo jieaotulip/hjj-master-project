@@ -70,7 +70,6 @@ public class SqlCostInterceptor implements Interceptor {
 			if (isStrictMap(parameterObjectClass)) {
 				StrictMap<Collection<?>> strictMap = (StrictMap<Collection<?>>)parameterObject;
 				if (isList(strictMap.get("list").getClass())) {
-					
 				}
 			}
 		}
